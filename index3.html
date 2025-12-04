@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ – Assistência Social</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f3f6fa;
+  padding-bottom: 50px; /* espaço para o rodapé fixo */
+}
+
+.header {
+  background: #1351b4;
+  color: #fff;
+  padding: 18px 25px;
+  font-size: 22px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+}
+.header span {
+  color: #ffdd00;
+}
+
+.container {
+  display: flex;
+  max-width: 1300px;
+  margin: 25px auto;
+  gap: 25px;
+  padding: 0 20px;
+}
+
+.sidebar {
+  width: 260px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  height: fit-content;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+}
+
+.sidebar h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #1351b4;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+.sidebar ul li {
+  padding: 12px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.sidebar ul li:hover {
+  background: #eaf2ff;
+}
+
+.main {
+  flex: 1;
+}
+
+.main h2 {
+  text-align: left;
+  color: #113f93;
+  font-size: 26px;
+  margin-top: 0;
+}
+
+/* FAQ */
+.accordion {
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+}
+.question {
+  padding: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.question:hover {
+  background: #eaf2ff;
+}
+.answer {
+  display: none;
+  padding: 15px;
+  border-top: 1px solid #ddd;
+  color: #444;
+}
+.arrow {
+  transition: .3s;
+}
+.rotate {
+  transform: rotate(90deg);
+}
+
+/* RODAPÉ FIXO COM INFORMAÇÕES IMPORTANTES */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #1351b4;
+  color: #fff;
+  padding: 10px 0;
+  font-size: 16px;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.footer p {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left 20s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* RESPONSIVIDADE PARA CELULARES */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* Sidebar acima do conteúdo */
+    margin: 15px;
+  }
+
+  .sidebar {
+    width: 100%; /* Ocupa toda a largura da tela */
+    margin-bottom: 20px;
+  }
+
+  .main {
+    width: 100%;
+  }
+
+  .header {
+    font-size: 20px;
+    padding: 15px 10px;
+  }
+
+  .sidebar h3 {
+    font-size: 16px;
+  }
+
+  .sidebar ul li {
+    padding: 10px 8px;
+    font-size: 14px;
+  }
+
+  .main h2 {
+    font-size: 22px;
+  }
+
+  .accordion .question {
+    font-size: 16px;
+  }
+
+  .footer {
+    font-size: 14px;
+  }
+}
+</style>
+
+<script>
+// Abre/fecha cada pergunta dentro da aba visível
+function toggleFaq(id) {
+  const answer = document.querySelector("#content #" + id);
+  const arrow = document.querySelector("#content #arrow-" + id);
+  if (!answer || !arrow) return;
+
+  const isOpen = answer.style.display === "block";
+  answer.style.display = isOpen ? "none" : "block";
+  arrow.classList.toggle("rotate", !isOpen);
+}
+
+// MOSTRA conteúdo da categoria sem duplicar IDs
+function showCategory(cat) {
+  const category = document.getElementById(cat);
+  
+  // Atualiza título
+  document.getElementById("page-title").innerText =
+    category.querySelector("h2").innerText;
+
+  // Limpa conteúdo atual
+  const content = document.getElementById("content");
+  content.innerHTML = "";
+
+  // Clona os acordions da categoria
+  category.querySelectorAll(".accordion").forEach(acc => {
+    content.appendChild(acc.cloneNode(true));
+  });
+}
+</script>
+
+</head>
+<body>
+
+<div class="header">
+  <span>Assistência Social</span> — Perguntas Frequentes (FAQ)
+</div>
+
+<div class="container">
+
+  <!-- MENU -->
+  <div class="sidebar">
+    <h3>Categorias</h3>
+    <ul>
+      <li onclick="showCategory('cat-beneficios')">Benefícios Sociais</li>
+      <li onclick="showCategory('cat-cadunico')">Cadastro Único</li>
+      <li onclick="showCategory('cat-bolsa')">Bolsa Família</li>
+      <li onclick="showCategory('cat-cras')">Atendimento no CRAS</li>
+      <li onclick="showCategory('cat-bpc')">BPC / LOAS</li>
+    </ul>
+  </div>
+
+  <!-- ÁREA DINÂMICA -->
+  <div class="main">
+    <h2 id="page-title">Selecione uma categoria ao lado</h2>
+    <div id="content"></div>
+  </div>
+
+</div>
+
+<!-- CATEGORIAS OCULTAS -->
+<div style="display:none;">
+
+  <!-- BENEFÍCIOS SOCIAIS -->
+  <div id="cat-beneficios">
+    <h2>Benefícios Sociais – Perguntas Frequentes</h2>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('b1')">
+        O que são benefícios sociais do Governo Federal?
+        <span id="arrow-b1" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="b1">
+        São programas e auxílios voltados à população em vulnerabilidade, como Bolsa Família,
+        BPC, Auxílio Gás, Seguro-Defeso, entre outros.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('b2')">
+        O que é o Benefício de Prestação Continuada (BPC/LOAS)?
+        <span id="arrow-b2" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="b2">
+        O BPC/LOAS garante 1 salário mínimo mensal para idosos (65+) ou pessoas com deficiência
+        que não conseguem se sustentar. Exige renda familiar per capita igual ou inferior a
+        ¼ do salário mínimo.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('b3')">
+        Quem pode receber o BPC/LOAS?
+        <span id="arrow-b3" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="b3">
+        Idosos com 65 anos ou mais e pessoas com deficiência que possuam impedimentos de longo prazo
+        e renda familiar per capita até ¼ do salário mínimo. Não exige contribuição ao INSS.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('b4')">
+        O BPC paga 13º salário ou deixa pensão por morte?
+        <span id="arrow-b4" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="b4">
+        Não. O Benefício de Prestação Continuada não paga 13º salário e não gera pensão por morte,
+        por não ser um benefício previdenciário.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('b5')">
+        Posso acumular o BPC com outros benefícios?
+        <span id="arrow-b5" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="b5">
+        O BPC não pode ser acumulado com benefícios previdenciários como aposentadoria ou pensão.
+      </div>
+    </div>
+  </div>
+
+  <!-- CADÚNICO -->
+  <div id="cat-cadunico">
+    <h2>Cadastro Único – Perguntas Frequentes</h2>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('c1')">
+        O que é o Cadastro Único?
+        <span id="arrow-c1" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="c1">
+        O Cadastro Único (CadÚnico) é um sistema do Governo Federal que identifica famílias de baixa renda para inclusão em programas sociais.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('c2')">
+        Quem pode se inscrever no CadÚnico?
+        <span id="arrow-c2" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="c2">
+        Famílias com renda mensal de até meio salário mínimo por pessoa ou renda total de até três salários mínimos.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('c3')">
+        Como faço para me cadastrar?
+        <span id="arrow-c3" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="c3">
+        Procure o CRAS do seu município levando documentos de todos os membros da família, comprovante de residência e CPF ou Título de Eleitor.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('c4')">
+        Preciso atualizar meu cadastro? Com que frequência?
+        <span id="arrow-c4" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="c4">
+        Sim, a atualização é obrigatória sempre que houver mudança na composição ou renda familiar, e no mínimo a cada 2 anos.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('c5')">
+        Quais programas usam as informações do CadÚnico?
+        <span id="arrow-c5" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="c5">
+        Programas como Bolsa Família, Auxílio Brasil, BPC/LOAS, Tarifa Social de Energia Elétrica, entre outros benefícios federais.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('c6')">
+        O que acontece se não atualizar os dados?
+        <span id="arrow-c6" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="c6">
+        A família pode perder o acesso a programas sociais e ter benefícios bloqueados ou cancelados.
+      </div>
+    </div>
+  </div>
+
+  <!-- BOLSA FAMÍLIA -->
+  <div id="cat-bolsa">
+    <h2>Bolsa Família – Perguntas Frequentes</h2>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('f1')">
+        Quem tem direito ao Bolsa Família?
+        <span id="arrow-f1" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="f1">
+        Famílias com renda mensal por pessoa de até R$ 218 e inscritas no CadÚnico.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('f2')">
+        Como faço para solicitar o Bolsa Família?
+        <span id="arrow-f2" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="f2">
+        Procure o CRAS mais próximo levando documentos pessoais e comprovante de residência.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('f3')">
+        Como faço para entrar no Bolsa Família?
+        <span id="arrow-f3" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="f3">
+        Estar no CadÚnico e com informações atualizadas. A seleção é automática pelo Governo Federal.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('f4')">
+        Preciso atualizar o CadÚnico todo ano?
+        <span id="arrow-f4" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="f4">
+        A atualização é obrigatória a cada 2 anos ou sempre que houver mudança na família.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('f5')">
+        Por que meu Bolsa Família foi bloqueado?
+        <span id="arrow-f5" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="f5">
+        Motivos comuns: falta de atualização, inconsistência de renda ou descumprimento
+        das condicionalidades.
+      </div>
+    </div>
+  </div>
+
+  <!-- CRAS -->
+  <div id="cat-cras">
+    <h2>Atendimento no CRAS</h2>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('cras1')">
+        O que é o CRAS?
+        <span id="arrow-cras1" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="cras1">
+        O Centro de Referência de Assistência Social (CRAS) é responsável pelo atendimento a famílias em situação de vulnerabilidade social, oferecendo orientação e serviços.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('cras2')">
+        Como posso ser atendido no CRAS?
+        <span id="arrow-cras2" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="cras2">
+        Procure o CRAS mais próximo de sua residência com documentos pessoais e do grupo familiar.
+      </div>
+    </div>
+  </div>
+
+  <!-- BPC / LOAS -->
+  <div id="cat-bpc">
+    <h2>BPC / LOAS</h2>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('bpc1')">
+        O que é o BPC / LOAS?
+        <span id="arrow-bpc1" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="bpc1">
+        O Benefício de Prestação Continuada (BPC/LOAS) garante um salário mínimo mensal a idosos com 65 anos ou mais e a pessoas com deficiência que não possuem meios de se sustentar, sem exigir contribuição ao INSS.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('bpc2')">
+        Quem tem direito ao BPC / LOAS?
+        <span id="arrow-bpc2" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="bpc2">
+        Idosos com 65 anos ou mais e pessoas com deficiência de longo prazo com renda familiar per capita até ¼ do salário mínimo.
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="question" onclick="toggleFaq('bpc3')">
+        O BPC pode ser acumulado com outros benefícios?
+        <span id="arrow-bpc3" class="arrow">▶</span>
+      </div>
+      <div class="answer" id="bpc3">
+        Não pode ser acumulado com benefícios previdenciários como aposentadoria ou pensão.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- RODAPÉ -->
+<div class="footer">
+  <p>
+    Bolsa Família: Auxílio financeiro para famílias de baixa renda. Atualize seu CadÚnico regularmente. 
+    • Governo Federal: Programas sociais como BPC, Auxílio Brasil e Tarifa Social de Energia Elétrica. 
+    • Para mais informações, entre em contato: (68) 99944-8281.
+  </p>
+</div>
+
+</body>
+</html>
